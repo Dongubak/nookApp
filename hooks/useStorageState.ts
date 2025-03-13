@@ -1,5 +1,5 @@
-import { useEffect, useCallback, useState } from "react";
-import { getStorageItem, setStorageItem } from "./useStorage";
+import { useEffect, useCallback, useState } from 'react';
+import { getStorageItem, setStorageItem } from './useStorage';
 
 export function useStorageState(key: string) {
   const [state, setState] = useState<string | null>(null);
