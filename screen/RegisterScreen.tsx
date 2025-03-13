@@ -73,12 +73,48 @@ export default function RegisterScreen({ togglePage }: RegisterProps) {
 
       <TextInput
         style={theme === 'dark' ? styles.darkInput : styles.lightInput}
-        placeholder='이메일을 입력해주세요'
+        placeholder='군산대학교 이메일을 입력해주세요'
         value={email}
         onChangeText={(text) => setEmail(text.slice(0, 40))}
         autoCapitalize='none'
         placeholderTextColor={theme === 'dark' ? '#aaa' : '#555'}
       />
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between'
+        }}
+      >
+        <TouchableOpacity
+          style={
+            theme === 'dark'
+              ? styles.darkConfirmButton
+              : styles.lightConfirmButton
+          }
+          onPress={() => {}}
+        >
+          <Text
+            style={
+              theme === 'dark'
+                ? styles.darkButtonText1
+                : styles.lightButtonText1
+            }
+          >
+            이메일 확인
+          </Text>
+        </TouchableOpacity>
+        <Text style={
+          {
+            backgroundColor: '#f1f5f9',
+            padding: 12,
+            borderRadius: 8,
+            alignItems: 'center',
+            marginBottom: 10,
+            width: '65%',
+          }
+        }>인증 완료 여부 칸</Text>
+      </View>
+
       <TextInput
         style={theme === 'dark' ? styles.darkInput : styles.lightInput}
         placeholder='비밀번호'
@@ -205,6 +241,22 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     alignItems: 'center',
     marginBottom: 10,
+  },
+  lightConfirmButton: {
+    backgroundColor: '#647486',
+    padding: 12,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginBottom: 10,
+    width: '30%',
+  },
+  darkConfirmButton: {
+    backgroundColor: '#f1f5f9',
+    padding: 12,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginBottom: 10,
+    width: '30%',
   },
   lightButtonOutline: {
     borderColor: '#262d34',
