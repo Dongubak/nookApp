@@ -1,6 +1,6 @@
-import React from "react";
-import { createContext, useContext } from "react";
-import { useStorageState } from "../hooks/useStorageState";
+import React from 'react';
+import { createContext, useContext } from 'react';
+import { useStorageState } from '../hooks/useStorageState';
 
 const AuthContext = createContext({
   signIn: (token: string) => {},
@@ -10,7 +10,7 @@ const AuthContext = createContext({
 });
 
 export function SessionProvider({ children }: { children: React.ReactNode }) {
-  const [[isLoading, session], setSession] = useStorageState("session");
+  const [[isLoading, session], setSession] = useStorageState('session');
 
   return (
     <AuthContext.Provider

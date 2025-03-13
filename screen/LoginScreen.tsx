@@ -1,25 +1,33 @@
-import React, { useState } from "react";
-import { View, Text, TextInput, Alert, StyleSheet, useColorScheme, TouchableOpacity } from "react-native";
-import { useAuth } from "@/api/auth";
-import { router } from "expo-router";
+import React, { useState } from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  Alert,
+  StyleSheet,
+  useColorScheme,
+  TouchableOpacity,
+} from 'react-native';
+import { useAuth } from '@/api/auth';
+import { router } from 'expo-router';
 
 interface LoginProps {
   togglePage: (toString: string) => void;
 }
 
 export default function LoginScreen({ togglePage }: LoginProps) {
-  const [email, setEmail] = useState("qqqqqqqq");
-  const [password, setPassword] = useState("qqqqqqqq");
+  const [email, setEmail] = useState('qqqqqqqq');
+  const [password, setPassword] = useState('qqqqqqqq');
   const { loginUser } = useAuth();
   const theme = useColorScheme();
 
   const handleLogin = async () => {
     if (!email.trim()) {
-      Alert.alert("이메일 오류", "이메일을 입력해주세요");
+      Alert.alert('이메일 오류', '이메일을 입력해주세요');
       return;
     }
     if (!password.trim()) {
-      Alert.alert("비밀번호 오류", "비밀번호를 입력해주세요");
+      Alert.alert('비밀번호 오류', '비밀번호를 입력해주세요');
       return;
     }
     // if (password.length < 8) {
@@ -29,60 +37,91 @@ export default function LoginScreen({ togglePage }: LoginProps) {
 
     try {
       await loginUser(email.trim(), password);
-      Alert.alert("로그인 성공", "환영합니다!");
-      router.replace("/");
+      Alert.alert('로그인 성공', '환영합니다!');
+      router.replace('/');
     } catch (error: any) {
       if (error.response?.status === 401) {
-        Alert.alert("로그인 실패", "이메일 또는 비밀번호가 틀렸습니다");
-        setPassword("");
+        Alert.alert('로그인 실패', '이메일 또는 비밀번호가 틀렸습니다');
+        setPassword('');
       } else {
         console.error(error);
-        Alert.alert("Internal Error");
+        Alert.alert('Internal Error');
       }
     }
   };
 
   return (
-    <View style={theme === "dark" ? styles.darkContainer : styles.lightContainer}>
-      <Text style={theme === "dark" ? styles.darkTitle : styles.lightTitle}>NookApp</Text>
-      <Text style={theme === "dark" ? styles.darkSubTitle : styles.lightSubTitle}>로그인</Text>
+    <View
+      style={theme === 'dark' ? styles.darkContainer : styles.lightContainer}
+    >
+      <Text style={theme === 'dark' ? styles.darkTitle : styles.lightTitle}>
+        NookApp
+      </Text>
+      <Text
+        style={theme === 'dark' ? styles.darkSubTitle : styles.lightSubTitle}
+      >
+        로그인
+      </Text>
       <TextInput
         style={theme === 'dark' ? styles.darkInput : styles.lightInput}
-        placeholder="이메일을 입력해주세요"
+        placeholder='이메일을 입력해주세요'
         value={email}
         onChangeText={(text) => setEmail(text.slice(0, 40))}
-        autoCapitalize="none"
-        placeholderTextColor={theme === "dark" ? "#aaa" : "#555"}
+        autoCapitalize='none'
+        placeholderTextColor={theme === 'dark' ? '#aaa' : '#555'}
       />
       <TextInput
         style={theme === 'dark' ? styles.darkInput : styles.lightInput}
-        placeholder="비밀번호"
+        placeholder='비밀번호'
         value={password}
         onChangeText={(text) => setPassword(text.slice(0, 40))}
         secureTextEntry
-        placeholderTextColor={theme === "dark" ? "#aaa" : "#555"}
+        placeholderTextColor={theme === 'dark' ? '#aaa' : '#555'}
       />
 
       {/* ✅ 다크모드 버튼 스타일 적용 */}
       <TouchableOpacity
-        style={theme === "dark" ? styles.darkButton : styles.lightButton}
+        style={theme === 'dark' ? styles.darkButton : styles.lightButton}
         onPress={handleLogin}
       >
-        <Text style={theme === "dark" ? styles.darkButtonText1 : styles.lightButtonText1}>로그인</Text>
+        <Text
+          style={
+            theme === 'dark' ? styles.darkButtonText1 : styles.lightButtonText1
+          }
+        >
+          로그인
+        </Text>
       </TouchableOpacity>
 
       <TouchableOpacity
-        style={theme === "dark" ? styles.darkButtonOutline : styles.lightButtonOutline}
+        style={
+          theme === 'dark'
+            ? styles.darkButtonOutline
+            : styles.lightButtonOutline
+        }
         onPress={() => {
-          togglePage('register')
+          togglePage('register');
         }}
       >
-        <Text style={theme === "dark" ? styles.darkButtonText2 : styles.lightButtonText2}>회원가입하러 가기</Text>
+        <Text
+          style={
+            theme === 'dark' ? styles.darkButtonText2 : styles.lightButtonText2
+          }
+        >
+          회원가입하러 가기
+        </Text>
       </TouchableOpacity>
 
-      <Text style={theme === "dark" ? styles.darkForgotPasswordText : styles.lightForgotPasswordText} onPress={() => {
-        togglePage('forgot')
-      }}>
+      <Text
+        style={
+          theme === 'dark'
+            ? styles.darkForgotPasswordText
+            : styles.lightForgotPasswordText
+        }
+        onPress={() => {
+          togglePage('forgot');
+        }}
+      >
         비밀번호를 까먹었어여?
       </Text>
     </View>
@@ -90,90 +129,126 @@ export default function LoginScreen({ togglePage }: LoginProps) {
 }
 
 const styles = StyleSheet.create({
-  lightContainer: { flex: 1, justifyContent: "center", padding: 20, backgroundColor: "#ffffff", borderWidth: 1, borderColor: "#ccc" },
-  darkContainer: { flex: 1, justifyContent: "center", padding: 20, backgroundColor: "#121212" },
-  lightTitle: { fontSize: 24, fontWeight: "bold", textAlign: "center", color: "#000", marginBottom: 15 },
-  darkTitle: { fontSize: 24, fontWeight: "bold", textAlign: "center", color: "#fff", marginBottom: 15 },
-  lightSubTitle: { fontSize: 15, fontWeight: "bold", textAlign: "center", color: "#000", marginBottom: 15 },
-  darkSubTitle: { fontSize: 15, fontWeight: "bold", textAlign: "center", color: "#fff", marginBottom: 15 },
+  lightContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    padding: 20,
+    backgroundColor: '#ffffff',
+    borderWidth: 1,
+    borderColor: '#ccc',
+  },
+  darkContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    padding: 20,
+    backgroundColor: '#121212',
+  },
+  lightTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: '#000',
+    marginBottom: 15,
+  },
+  darkTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: '#fff',
+    marginBottom: 15,
+  },
+  lightSubTitle: {
+    fontSize: 15,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: '#000',
+    marginBottom: 15,
+  },
+  darkSubTitle: {
+    fontSize: 15,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: '#fff',
+    marginBottom: 15,
+  },
   lightInput: {
     height: 50,
     borderWidth: 1,
-    borderColor: "#ccc",
+    borderColor: '#ccc',
     borderRadius: 8,
     paddingHorizontal: 10,
     marginBottom: 15,
-    color: "#000",
+    color: '#000',
   },
   darkInput: {
     height: 50,
     borderWidth: 1,
-    borderColor: "#ccc",
+    borderColor: '#ccc',
     borderRadius: 8,
     paddingHorizontal: 10,
     marginBottom: 15,
-    color: "#eee",
+    color: '#eee',
   },
   lightButton: {
-    backgroundColor: "#647486",
+    backgroundColor: '#647486',
     padding: 12,
     borderRadius: 8,
-    alignItems: "center",
+    alignItems: 'center',
     marginBottom: 10,
   },
   darkButton: {
-    backgroundColor: "#f1f5f9",
+    backgroundColor: '#f1f5f9',
     padding: 12,
     borderRadius: 8,
-    alignItems: "center",
+    alignItems: 'center',
     marginBottom: 10,
   },
   lightButtonOutline: {
-    borderColor: "#262d34",
+    borderColor: '#262d34',
     borderWidth: 1,
     padding: 12,
     borderRadius: 8,
-    alignItems: "center",
+    alignItems: 'center',
   },
   darkButtonOutline: {
-    borderColor: "#bbb",
+    borderColor: '#bbb',
     borderWidth: 1,
     padding: 12,
     borderRadius: 8,
-    alignItems: "center",
+    alignItems: 'center',
   },
   darkButtonText1: {
-    color: "#2e1111",
+    color: '#2e1111',
     fontSize: 16,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   darkButtonText2: {
-    color: "#eee",
+    color: '#eee',
     fontSize: 16,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   lightButtonText1: {
-    color: "#ffffff",
+    color: '#ffffff',
     fontSize: 16,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   lightButtonText2: {
-    color: "#313143",
+    color: '#313143',
     fontSize: 16,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   lightForgotPasswordText: {
     // borderColor: "#000",
     // borderWidth: 1,
     paddingLeft: 10,
     marginTop: 10,
-    color: "#313143",
+    color: '#313143',
     fontSize: 10,
-    fontWeight: "semibold",
+    fontWeight: 'semibold',
   },
   darkForgotPasswordText: {
-    color: "#ffffff",
+    color: '#ffffff',
     fontSize: 10,
-    fontWeight: "semibold",
-  }
+    fontWeight: 'semibold',
+  },
 });
