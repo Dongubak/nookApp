@@ -4,6 +4,7 @@ export default ({ config }) => ({
   ios: {
     ...config.ios,
     bundleIdentifier: getUniqueIdentifier(),
+    // buildNumber
   },
   android: {
     ...config.android,
